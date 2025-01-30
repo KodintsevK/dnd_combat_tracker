@@ -69,6 +69,7 @@ const CTable: React.FC<CTableProps> = ({ data, onEditCell, onDelete }) => {
             <td>
               <button
                 onClick={() => onDelete(player.id) }
+                style={{backgroundColor: 'pink', border: '0px', borderRadius: '5px', cursor: "pointer"}}
               >Удалить</button>
             </td>
           </tr>

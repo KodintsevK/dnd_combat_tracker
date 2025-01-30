@@ -49,9 +49,7 @@ const App = () => {
 
   };
 
-  const hadleDeletePlayer = (id : number) => {
-    console.log(id);
-    
+  const hadleDeletePlayer = (id : number) => {    
     const updatedData = data.filter(e=> e.id !== id)
     updatedData.sort((a, b) => b.initiative - a.initiative);
     setData(updatedData);
@@ -62,12 +60,10 @@ const App = () => {
     <div>
       <h1>Таблица игроков</h1>
 
-      <CTable data={data} onEditCell={handleEditCell} onDelete={hadleDeletePlayer}/>
-
       {
-        <button onClick={handleAddPlayer}>+</button>
+        <button onClick={handleAddPlayer} style={{cursor: "pointer", backgroundColor: "lightgreen", border: "0px", borderRadius: "5px"}}>+</button>
       }
-
+      <CTable data={data} onEditCell={handleEditCell} onDelete={hadleDeletePlayer}/>
     </div>
   );
 };
