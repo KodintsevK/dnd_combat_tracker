@@ -29,14 +29,20 @@ const CTable: React.FC<CTableProps> = ({ data, onEditCell, onDelete }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map(player => (
-          <tr key={player.id}>
+        {data.map(player =>{ 
+        const isDead = player.maxHP && ( player.maxHP <= player.damageTaken )
+        return  (
+          <tr 
+            key={player.id}
+            className={isDead ? 'dead' : ''}
+            >
             <td>
               <input
                 type="text"
                 value={player.name}
                 onChange={(e) => onEditCell(player.id, 'name', e.target.value)}
               />
+              {isDead && <span>💀</span>}
             </td>
             <td>
               <input
@@ -73,7 +79,7 @@ const CTable: React.FC<CTableProps> = ({ data, onEditCell, onDelete }) => {
               >Удалить</button>
             </td>
           </tr>
-        ))}
+        )})}
       </tbody>
     </table>
   );
