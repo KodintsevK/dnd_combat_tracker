@@ -10,12 +10,12 @@ interface Player {
 }
 
 interface CTableProps {
-  data: Player[];
+  characters: Player[];
   onEditCell: (id: number, field: keyof Player, value: string | number) => void;
   onDelete: (id: number) => void;
 }
 
-const CTable: React.FC<CTableProps> = ({ data, onEditCell, onDelete }) => {
+const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => {
   return (
     <table>
       <thead>
@@ -29,8 +29,8 @@ const CTable: React.FC<CTableProps> = ({ data, onEditCell, onDelete }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map(player =>{ 
-        const isDead = player.maxHP && ( player.maxHP <= player.damageTaken )
+        {characters.map(player =>{ 
+        const isDead = Boolean(player.maxHP) && ( player.maxHP <= player.damageTaken )
         return  (
           <tr 
             key={player.id}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import CTable from './components/CTable/table.tsx';
 
 
@@ -13,7 +13,15 @@ interface Player {
 
 const App = () => {
   // Начальные данные для таблицы
-  const [data, setData] = useState<Player[]>([]);
+  const [characters, setCharacters] = useState<Player[]>(()=> {
+    const savedCharacters = localStorage.getItem('characters');
+    return savedCharacters ? JSON.parse(savedCharacters) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('characters', JSON.stringify(characters));
+}, [characters]);
+
 
   const [newPlayer, setNewPlayer] = useState<Omit<Player, 'id'>>({
     name: '',
@@ -24,35 +32,35 @@ const App = () => {
   });
 
   const handleEditCell = (id: number, field: keyof Player, value: string | number) => {
-    const updatedData = data.map(player => {
+    const updatedData = characters.map(player => {
       if (player.id === id) {
         return { ...player, [field]: value };
       }
       return player;
     });
     updatedData.sort((a, b) => b.initiative - a.initiative);
-    setData(updatedData);
+    setCharacters(updatedData);
   };
 
   const handleAddPlayer = () => {
       const updatedData = [
-        ...data,
+        ...characters,
         {
-          id: data.length + 1,
+          id: characters.length + 1,
           ...newPlayer,
         },
       ];
 
       // Сортировка по инициативе (по возрастанию)
       updatedData.sort((a, b) => b.initiative - a.initiative);
-      setData(updatedData);
+      setCharacters(updatedData);
 
   };
 
   const hadleDeletePlayer = (id : number) => {    
-    const updatedData = data.filter(e=> e.id !== id)
+    const updatedData = characters.filter(e=> e.id !== id)
     updatedData.sort((a, b) => b.initiative - a.initiative);
-    setData(updatedData);
+    setCharacters(updatedData);
   }
 
 
@@ -63,7 +71,7 @@ const App = () => {
       {
         <button onClick={handleAddPlayer} style={{cursor: "pointer", backgroundColor: "lightgreen", border: "0px", borderRadius: "5px"}}>+</button>
       }
-      <CTable data={data} onEditCell={handleEditCell} onDelete={hadleDeletePlayer}/>
+      <CTable characters={characters} onEditCell={handleEditCell} onDelete={hadleDeletePlayer}/>
     </div>
   );
 };
