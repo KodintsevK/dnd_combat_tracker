@@ -1,4 +1,6 @@
 import React from 'react';
+import TableCell from './cell.tsx';
+
 
 interface Player {
   id: number;
@@ -31,47 +33,33 @@ const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => 
       <tbody>
         {characters.map(player =>{ 
         const isDead = Boolean(player.maxHP) && ( player.maxHP <= player.damageTaken )
+
         return  (
           <tr 
             key={player.id}
             className={isDead ? 'dead' : ''}
             >
-            <td>
-              <input
-                type="text"
+            <TableCell 
                 value={player.name}
-                onChange={(e) => onEditCell(player.id, 'name', e.target.value)}
-              />
-              {isDead && <span>💀</span>}
-            </td>
-            <td>
-              <input
-                type="number"
+                onChange={(value) => onEditCell(player.id, 'name', value)}
+                isDead={isDead}
+            />
+            <TableCell 
                 value={player.initiative}
-                onChange={(e) => onEditCell(player.id, 'initiative', Number(e.target.value) || '')}
-              />
-            </td>
-            <td>
-              <input
-                type="number"
+                onChange={(value) => onEditCell(player.id, 'initiative', value)}
+            />
+            <TableCell 
                 value={player.armorClass}
-                onChange={(e) => onEditCell(player.id, 'armorClass', Number(e.target.value) || '')}
-              />
-            </td>
-            <td>
-              <input
-                type="number"
+                onChange={(value) => onEditCell(player.id, 'armorClass', value)}
+            />
+            <TableCell 
                 value={player.maxHP}
-                onChange={(e) => onEditCell(player.id, 'maxHP', Number(e.target.value) || '')}
-              />
-            </td>
-            <td>
-              <input
-                type="number"
+                onChange={(value) => onEditCell(player.id, 'maxHP', value)}
+            />
+            <TableCell 
                 value={player.damageTaken}
-                onChange={(e) => onEditCell(player.id, 'damageTaken', Number(e.target.value) || '')}
-              />
-            </td>
+                onChange={(value) => onEditCell(player.id, 'damageTaken', value)}
+            />
             <td>
               <button
                 onClick={() => onDelete(player.id) }

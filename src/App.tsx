@@ -23,7 +23,7 @@ const App = () => {
 }, [characters]);
 
 
-  const [newPlayer, setNewPlayer] = useState<Omit<Player, 'id'>>({
+  const [newPlayer,] = useState<Omit<Player, 'id'>>({
     name: '',
     initiative: 0,
     armorClass: 0,
