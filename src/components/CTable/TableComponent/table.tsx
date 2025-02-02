@@ -1,15 +1,8 @@
 import React from 'react';
-import TableCell from './cell.tsx';
+import TableCell from '../CellComponent/cell.tsx';
+import "./table.css"
+import Player from '../../../Interface/Player.tsx';
 
-
-interface Player {
-  id: number;
-  name: string;
-  initiative: number;
-  armorClass: number;
-  maxHP: number;
-  damageTaken: number;
-}
 
 interface CTableProps {
   characters: Player[];
@@ -22,17 +15,18 @@ const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => 
     <table>
       <thead>
         <tr>
-          <th>Имя</th>
+          <th className='nickname-column'>Имя</th>
           <th>Инициатива</th>
           <th>Класс Брони</th>
           <th>Макс. Здоровье</th>
+          <th>Временные хиты</th>
           <th>Получено Урона</th>
-          <th>Опции</th>
+          <th className='option-column'>Опции</th>
         </tr>
       </thead>
       <tbody>
         {characters.map(player =>{ 
-        const isDead = Boolean(player.maxHP) && ( player.maxHP <= player.damageTaken )
+        const isDead = Boolean(player.maxHP) && ( player.maxHP + player.timelessHp <= player.damageTaken )
 
         return  (
           <tr 
@@ -43,24 +37,34 @@ const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => 
                 value={player.name}
                 onChange={(value) => onEditCell(player.id, 'name', value)}
                 isDead={isDead}
+                type="text"
             />
             <TableCell 
                 value={player.initiative}
                 onChange={(value) => onEditCell(player.id, 'initiative', value)}
+                type="number"
             />
             <TableCell 
                 value={player.armorClass}
                 onChange={(value) => onEditCell(player.id, 'armorClass', value)}
+                type="number" 
             />
             <TableCell 
                 value={player.maxHP}
                 onChange={(value) => onEditCell(player.id, 'maxHP', value)}
+                type="number" 
+            />
+            <TableCell 
+                value={player.timelessHp}
+                onChange={(value) => onEditCell(player.id, 'timelessHp', value)}
+                type="number" 
             />
             <TableCell 
                 value={player.damageTaken}
                 onChange={(value) => onEditCell(player.id, 'damageTaken', value)}
+                type="number" 
             />
-            <td>
+            <td className='table-cell options'>
               <button
                 onClick={() => onDelete(player.id) }
                 style={{backgroundColor: 'pink', border: '0px', borderRadius: '5px', cursor: "pointer"}}

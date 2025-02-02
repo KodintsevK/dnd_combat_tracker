@@ -1,28 +1,32 @@
 import React from 'react';
+import './cell.css'
 
 interface TableCellProps {
     value: string | number;
     onChange: (value: string | number) => void;
     isDead?: boolean;
+    type?: 'text' | 'number';
 }
 
-const TableCell: React.FC<TableCellProps> = ({ value, onChange, isDead }) => {
+const TableCell: React.FC<TableCellProps> = ({ value, onChange, isDead, type = 'text' }) => {
     return (
-      <td>
+      <td className={`table-cell ${type}`}>
         {typeof value === 'string' ? (
           <>
             <input
-              type="text"
+              className="text"
               value={value}
               onChange={(e) => onChange(e.target.value)}
+              type={type}
             />
             {isDead && <span>💀</span>}
           </>
         ) : (
           <input
-            type="number"
-            value={value}
-            onChange={(e) => onChange(Number(e.target.value) || '')}
+            className="number"
+            value={Number(value) || 0}
+            onChange={(e) => onChange(Number(e.target.value) || 0)}
+            type={type}
           />
         )}
       </td>

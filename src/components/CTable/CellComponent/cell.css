@@ -1,0 +1,26 @@
+td.table-cell.text {
+    width: 400px;
+}
+
+td.table-cell.number .option-column{
+    width: 60px;
+} 
+
+input.number {
+    width: 60px;
+}
+
+input {
+    height: 50px;
+    /* width: 150px; */
+    font-size: 24px;
+    text-align: center;
+    border-radius: 5px; /* Скругляем углы */
+    border: 1px solid #ccc; /* Легкая граница */
+    transition: border-color 0.3s; /* Плавный переход границы */
+}
+
+input:focus {
+    border-color: #007bff; 
+    outline: none;
+}
