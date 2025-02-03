@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from 'react';
 import CTable from './components/CTable/TableComponent/table.tsx';
 import Player from './Interface/Player.tsx';
-
+import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
   // Начальные данные для таблицы
@@ -12,7 +12,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('characters', JSON.stringify(characters));
-}, [characters]);
+  }, [characters]);
 
 
   const [newPlayer,] = useState<Omit<Player, 'id'>>({
@@ -21,10 +21,11 @@ const App = () => {
     armorClass: 0,
     maxHP: 0,
     damageTaken: 0,
-    timelessHp: 0
+    timelessHp: 0,
+    states: []
   });
 
-  const handleEditCell = (id: number, field: keyof Player, value: string | number) => {
+  const handleEditCell = (id: string, field: keyof Player, value: string | number | string[]) => {
     if (typeof value === "number" && value < 0){
       value = 0;
     }
@@ -42,7 +43,7 @@ const App = () => {
       const updatedData = [
         ...characters,
         {
-          id: characters.length + 1,
+          id: uuidv4(),
           ...newPlayer,
         },
       ];
@@ -53,7 +54,7 @@ const App = () => {
 
   };
 
-  const hadleDeletePlayer = (id : number) => {    
+  const hadleDeletePlayer = (id : string) => {    
     const updatedData = characters.filter(e=> e.id !== id)
     updatedData.sort((a, b) => b.initiative - a.initiative);
     setCharacters(updatedData);

@@ -24,3 +24,13 @@ input:focus {
     border-color: #007bff; 
     outline: none;
 }
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+input.checkbox {
+    width: 10px;
+    height: 10px;
+}

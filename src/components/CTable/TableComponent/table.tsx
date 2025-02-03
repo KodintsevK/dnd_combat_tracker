@@ -2,13 +2,117 @@ import React from 'react';
 import TableCell from '../CellComponent/cell.tsx';
 import "./table.css"
 import Player from '../../../Interface/Player.tsx';
+import { v4 as uuidv4 } from 'uuid';
 
 
 interface CTableProps {
   characters: Player[];
-  onEditCell: (id: number, field: keyof Player, value: string | number) => void;
-  onDelete: (id: number) => void;
+  onEditCell: (id: string, field: keyof Player, value: string | number) => void;
+  onDelete: (id: string) => void;
 }
+
+const character_states = {
+  'Ослеплен': [
+    'Не видите. Вы не видите и автоматически проваливаете любые проверки характеристик, требующие зрения.',
+    'Атаки затруднены. Броски атаки против вас совершаются с преимуществом, а ваши броски атаки совершаются с помехой.'
+  ],
+  'Отравленный': [
+    'Проверки Характеристик и Атаки. Вы совершаете броски атаки и проверки характеристик с помехой.'
+  ],
+  'Недееспособный': [
+    'Без действий. Вы не можете совершать действия, бонусные действия или реакции.',
+    'Отсутствие концентрации. Ваша концентрация прерывается.',
+    'Немота. Вы не можете говорить.',
+    'Застигнут Врасплох. Если вы находитесь под состоянием недееспособный, когда бросаете инициативу, вы совершаете бросок с помехой.'
+  ],
+  'Оглохший': [
+    'Не можете слышать. Вы не можете слышать и автоматически проваливаете любую проверку характеристики, основанную на слухе'
+  ],
+  'Опутанный': [
+    "Скорость 0. Ваша скорость равна 0 и не может быть увеличена.",
+    "Атаки. Броски атаки против вас совершаются с преимуществом, а ваши броски атаки совершаются с помехой.",
+    "Спасброски. Вы совершаете спасброски Ловкости с помехой.",
+  ],
+  'Парализованный': [
+    "Недееспособный. Вы получаете состояние недееспособный.",
+    "Скорость 0. Ваша скорость равна 0 и не может быть увеличена",
+    "Спасброски. Вы автоматически проваливаете спасброски Силы и Ловкости.",
+    "Атаки. Броски атак против вас совершаются с преимуществом.",
+    "Критические попадания. Любая атака, которая попадает по вам, становится критическим попаданием, если нападающий находится в пределах 5 футов от вас."
+  ],
+  "Испуганный": [
+    "Проверки характеристик и атаки. Вы получаете помеху на проверки характеристик и броски атаки, пока источник страха находится в пределах видимости.",
+    "Невозможность приблизиться. Вы не можете добровольно приблизиться к источнику страха."
+  ],
+  "Бессознательный": [
+    "Неактивный. У вас есть состояния недееспособный и лежащий ничком, и вы роняете всё, что держите. Когда это состояние заканчивается, то вы остаётесь лежащим ничком",
+    "Скорость 0. Ваша скорость равна 0 и не может увеличиваться.",
+    "Атаки. Броски атаки против вас совершаются с преимуществом.",
+    "Спасброски. Вы автоматически проваливаете спасброски Силы и Ловкости.",
+    "Критические удары. Любая атака, которая попадает по вам, является критическим попаданием, если нападающий находится в пределах 5 футов от вас.",
+    "Неосведомленность. Вы не осознаёте своё окружение."
+  ],
+  "Схваченный": [
+    "Скорость 0. Ваша скорость равна 0 и не может быть увеличена.",
+    "Атаки. Вы получаете помеху на броски атаки против любой цели, кроме захватившего вас.",
+    "Перемещение. Захватившее существо может тащить или нести вас, когда оно перемещается, но каждый фут его перемещения будет стоить ему 1 дополнительный фут, если только ваш размер не крошечный или вы на 2 размера меньше схватившего вас существа."
+  ],
+  "Очарованный": [
+    "Не можете навредить очаровавшему. Вы не можете атаковать очаровавшего вас или использовать против него способности или магические эффекты, наносящие урон.",
+    "Социальное преимущество. Очаровавший имеет преимущество на любые проверки характеристик, связанные с социальным взаимодействием с вами."
+  ],
+  "Лежащий ничком": [
+    "Ограниченное перемещение. Ваши единственные варианты перемещения — это ползание или подъём. Подъём тратит количество перемещения, равное половине вашей скорости (округляется в меньшую сторону), чтобы подняться и таким образом снять это состояние. Если ваша скорость равна 0, то вы не можете подняться",
+    "Влияние на атаки. У вас помеха на броски атаки. Бросок атаки против вас имеет преимущество, если атакующий находится в пределах 5 футов от вас. В противном случае этот бросок атаки совершается с помехой."
+  ],
+  "Невидимый": [
+    "Неожиданность. Если вы невидимы, когда бросаете инициативу, то у вас есть преимущество на этот бросок.",
+    "Скрытность. Вы не подвержены эффектам, которые требуют, чтобы цель была видимой. За исключением случаев, когда создатель эффекта каким-то образом видит вас. Любое снаряжение, которое вы носите или несёте, также скрыто.",
+    "Влияние на атаки. Броски атаки против вас совершаются с помехой, а ваши броски атаки имеют преимущество. Если существо каким-то образом может видеть вас, то вы не получаете этого эффекта против него"
+  ],
+  "Истощённый": [
+    "Степени истощения. Это состояние накапливается. Каждый раз, когда вы получаете состояние истощённый, то вы также получаете 1 степень истощения. Вы умираете, если ваша степень истощения достигает 6.",
+    "Эффект на Тест к20. Когда вы совершаете Тест к20, то результат броска уменьшается на количество степеней истощения, умноженных на 2.",
+    "Скорость уменьшена. Ваша скорость уменьшается на количество футов, равное 5, умноженное на вашу степень истощения.",
+    "Удаление степеней истощения. Окончание продолжительного отдыха снимает 1 степень истощения. Когда ваша степень истощения достигает 0, это состояние заканчивается."
+  ],
+  "Ошеломлённый": [
+    "Недееспособный. Вы находитесь в состоянии недееспособный.",
+    "Спасброски. Вы автоматически проваливаете спасброски Силы и Ловкости.",
+    "Атаки. По вам совершаются атаки с преимуществом."
+  ],
+  "Окаменевший": [
+    "Преобразование в неорганическое вещество.Вы превращаетесь вместе с любыми немагическими предметами, которые вы носите и держите, в твёрдое неорганическое вещество (обычно камень). Ваш вес увеличивается в 10 раз и вы перестаёте стареть",
+    "Недееспособный. Вы находитесь в состоянии недееспособный.",
+    "Скорость 0. Ваша скорость равна 0 и не может быть увеличена",
+    "Атаки. Броски атаки против вас совершаются с преимуществом.",
+    "Спасброски. Вы автоматически проваливаете спасброски Силы и Ловкости.",
+    "Сопротивление урону. Вы имеете сопротивление ко всему урону.",
+    "Иммунитет к яду. Вы имеете иммунитет к состоянию отравленный."
+  ]
+}
+
+const onInputCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, onEditCell : any, player : Player) => {  
+  const prevStates = player.states;
+
+  if (event.target.checked) { 
+    const set = new Set([...prevStates, `${event.target.id}`])
+    onEditCell(player.id, 'states', Array.from(set))
+  }
+  if (!event.target.checked) {
+    const filtredArr = prevStates.filter(e=> e!== `${event.target.id}`)
+    onEditCell(player.id, 'states', filtredArr)
+  }
+};
+
+const getChecked = (player : Player, key : string) : boolean => {
+
+  console.log(player.states.includes(`${key}_${player.id}`));
+  
+  
+  return player.states.includes(`${key}_${player.id}`)
+}
+
 
 const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => {
   return (
@@ -16,6 +120,7 @@ const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => 
       <thead>
         <tr>
           <th className='nickname-column'>Имя</th>
+          <th className='states-column'>Состояния</th>
           <th>Инициатива</th>
           <th>Класс Брони</th>
           <th>Макс. Здоровье</th>
@@ -26,52 +131,78 @@ const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => 
       </thead>
       <tbody>
         {characters.map(player =>{ 
-        const isDead = Boolean(player.maxHP) && ( player.maxHP + player.timelessHp <= player.damageTaken )
-
-        return  (
-          <tr 
-            key={player.id}
-            className={isDead ? 'dead' : ''}
-            >
-            <TableCell 
-                value={player.name}
-                onChange={(value) => onEditCell(player.id, 'name', value)}
-                isDead={isDead}
-                type="text"
-            />
-            <TableCell 
-                value={player.initiative}
-                onChange={(value) => onEditCell(player.id, 'initiative', value)}
-                type="number"
-            />
-            <TableCell 
-                value={player.armorClass}
-                onChange={(value) => onEditCell(player.id, 'armorClass', value)}
-                type="number" 
-            />
-            <TableCell 
-                value={player.maxHP}
-                onChange={(value) => onEditCell(player.id, 'maxHP', value)}
-                type="number" 
-            />
-            <TableCell 
-                value={player.timelessHp}
-                onChange={(value) => onEditCell(player.id, 'timelessHp', value)}
-                type="number" 
-            />
-            <TableCell 
-                value={player.damageTaken}
-                onChange={(value) => onEditCell(player.id, 'damageTaken', value)}
-                type="number" 
-            />
-            <td className='table-cell options'>
-              <button
-                onClick={() => onDelete(player.id) }
-                style={{backgroundColor: 'pink', border: '0px', borderRadius: '5px', cursor: "pointer"}}
-              >Удалить</button>
-            </td>
-          </tr>
-        )})}
+          const isDead = Boolean(player.maxHP) && ( player.maxHP + player.timelessHp <= player.damageTaken )
+          console.log('внешний player.id: ', player.id);
+          
+          return  (
+            <tr 
+              key={player.id}
+              className={isDead ? 'dead' : ''}
+              >
+              <TableCell 
+                  value={player.name}
+                  onChange={(value) => onEditCell(player.id, 'name', value)}
+                  isDead={isDead}
+                  type="text"
+              />
+              <td>
+                <ul className="checkbox-list">
+                  {
+                  Object.keys(character_states).map(key => {
+                    return (
+                      <div key={`${key}_div`}>
+                        <li>
+                        <input 
+                          id={`${key}_${player.id}`}
+                          type="checkbox"
+                          className='checkbox'
+                          onChange={(e) => { onInputCheckboxChange(e, onEditCell, player)}}
+                          checked={getChecked(player, key)}
+                          ></input>
+                        <label htmlFor={`${key}_${player.id}`} className="tooltip">{key}
+                            <span className="popup">{character_states[key].map((e: string) => <p key={uuidv4()}>{e}</p>)}</span>
+                        </label>
+                      
+                      </li>
+                      </div>
+                    )})
+                  }
+                  </ul>
+              </td>
+              <TableCell 
+                  value={player.initiative}
+                  onChange={(value) => onEditCell(player.id, 'initiative', value)}
+                  type="number"
+              />
+              <TableCell 
+                  value={player.armorClass}
+                  onChange={(value) => onEditCell(player.id, 'armorClass', value)}
+                  type="number" 
+              />
+              <TableCell 
+                  value={player.maxHP}
+                  onChange={(value) => onEditCell(player.id, 'maxHP', value)}
+                  type="number" 
+              />
+              <TableCell 
+                  value={player.timelessHp}
+                  onChange={(value) => onEditCell(player.id, 'timelessHp', value)}
+                  type="number" 
+              />
+              <TableCell 
+                  value={player.damageTaken}
+                  onChange={(value) => onEditCell(player.id, 'damageTaken', value)}
+                  type="number" 
+              />
+              <td className='table-cell options'>
+                <button
+                  onClick={() => onDelete(player.id) }
+                  style={{backgroundColor: 'pink', border: '0px', borderRadius: '5px', cursor: "pointer"}}
+                >Удалить</button>
+              </td>
+            </tr>
+          )})
+        }
       </tbody>
     </table>
   );
