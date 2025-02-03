@@ -40,3 +40,30 @@ th.nickname-column {
 th.option-column {
     width: 1em;
 }
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.popup {
+    visibility: hidden;
+    width: 600px; /* Ширина всплывающего окна */
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Позиционирование всплывающего окна выше элемента */
+    left: 50%;
+    margin-left: -100px; /* Центрируем относительно label */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .popup {
+    visibility: visible;
+    opacity: 1;
+}

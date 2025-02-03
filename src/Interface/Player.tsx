@@ -1,5 +1,5 @@
 interface Player {
-    id: number;
+    id: string;
     name: string;
     initiative: number;
     armorClass: number;
@@ -7,6 +7,7 @@ interface Player {
     damageTaken: number;
     timelessHp: number;
     isDead?: boolean;
+    states: string[];
 }
 
 export default Player;
