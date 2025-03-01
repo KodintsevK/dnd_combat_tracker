@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/dnd_combat_tracker/static/css/main.42783bdc.css",
+    "main.js": "/dnd_combat_tracker/static/js/main.cd91cf04.js",
+    "index.html": "/dnd_combat_tracker/index.html",
+    "main.42783bdc.css.map": "/dnd_combat_tracker/static/css/main.42783bdc.css.map",
+    "main.cd91cf04.js.map": "/dnd_combat_tracker/static/js/main.cd91cf04.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.42783bdc.css",
+    "static/js/main.cd91cf04.js"
+  ]
+}
