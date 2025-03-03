@@ -2,6 +2,7 @@ import React, { useState, useEffect  } from 'react';
 import CTable from './components/CTable/TableComponent/table.tsx';
 import Player from './Interface/Player.tsx';
 import { v4 as uuidv4 } from 'uuid';
+// import './reset.css';
 
 const App = () => {
   // Начальные данные для таблицы
@@ -66,7 +67,9 @@ const App = () => {
       <h1>Таблица игроков</h1>
 
       {
-        <button onClick={handleAddPlayer} style={{cursor: "pointer", backgroundColor: "lightgreen", border: "0px", borderRadius: "5px"}}>+</button>
+        <button onClick={handleAddPlayer} style={{
+          cursor: "pointer", backgroundColor: "lightgreen", border: "0px", borderRadius: "5px", width: "40px", height: "40px"
+        }}>+</button>
       }
       <CTable characters={characters} onEditCell={handleEditCell} onDelete={hadleDeletePlayer}/>
     </div>
