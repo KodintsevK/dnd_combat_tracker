@@ -2,12 +2,11 @@ import React from 'react';
 import TableCell from '../CellComponent/cell.tsx';
 import "./table.css"
 import Player from '../../../Interface/Player.tsx';
-import { v4 as uuidv4 } from 'uuid';
 
 
 interface CTableProps {
   characters: Player[];
-  onEditCell: (id: string, field: keyof Player, value: string | number) => void;
+  onEditCell: (id: string, field: keyof Player, value: string | number | boolean | string[]) => void;
   onDelete: (id: string) => void;
 }
 
@@ -92,27 +91,6 @@ const character_states = {
   ]
 }
 
-const onInputCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, onEditCell : any, player : Player) => {  
-  const prevStates = player.states;
-
-  if (event.target.checked) { 
-    const set = new Set([...prevStates, `${event.target.id}`])
-    onEditCell(player.id, 'states', Array.from(set))
-  }
-  if (!event.target.checked) {
-    const filtredArr = prevStates.filter(e=> e!== `${event.target.id}`)
-    onEditCell(player.id, 'states', filtredArr)
-  }
-};
-
-const getChecked = (player : Player, key : string) : boolean => {
-
-  console.log(player.states.includes(`${key}_${player.id}`));
-  
-  
-  return player.states.includes(`${key}_${player.id}`)
-}
-
 
 const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => {
   return (
@@ -132,7 +110,6 @@ const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => 
       <tbody>
         {characters.map(player =>{ 
           const isDead = Boolean(player.maxHP) && ( player.maxHP + player.timelessHp <= player.damageTaken )
-          console.log('внешний player.id: ', player.id);
           
           return  (
             <tr 
@@ -145,30 +122,14 @@ const CTable: React.FC<CTableProps> = ({ characters, onEditCell, onDelete }) => 
                   isDead={isDead}
                   type="text"
               />
-              <td>
-                <ul className="checkbox-list">
-                  {
-                  Object.keys(character_states).map(key => {
-                    return (
-                      <div key={`${key}_div`}>
-                        <li>
-                        <input 
-                          id={`${key}_${player.id}`}
-                          type="checkbox"
-                          className='checkbox'
-                          onChange={(e) => { onInputCheckboxChange(e, onEditCell, player)}}
-                          checked={getChecked(player, key)}
-                          ></input>
-                        <label htmlFor={`${key}_${player.id}`} className="tooltip">{key}
-                            <span className="popup">{character_states[key].map((e: string) => <p key={uuidv4()}>{e}</p>)}</span>
-                        </label>
-                      
-                      </li>
-                      </div>
-                    )})
-                  }
-                  </ul>
-              </td>
+              <TableCell
+                  type="checkbox"
+                  options={character_states}
+                  player={player}
+                  onEditCell={(playerId, field, val) => onEditCell(playerId, field, val)}
+                  onChange={(value) => onEditCell(player.id, 'states', value)}
+                  value={player.states}
+              />
               <TableCell 
                   value={player.initiative}
                   onChange={(value) => onEditCell(player.id, 'initiative', value)}

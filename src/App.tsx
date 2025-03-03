@@ -25,7 +25,7 @@ const App = () => {
     states: []
   });
 
-  const handleEditCell = (id: string, field: keyof Player, value: string | number | string[]) => {
+  const handleEditCell = (id: string, field: keyof Player, value: string | number | string[] | boolean) => {
     if (typeof value === "number" && value < 0){
       value = 0;
     }
