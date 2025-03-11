@@ -20,7 +20,8 @@ class UserController {
             let { email, password } = req.body;
 
             email = UserService.validateEmail(email);
-
+            password = UserService.validatePassword(password);
+            
             const user = await UserService.registration(email, password);
 
             res.status(201).json({ token: user.token, email: user.email });
@@ -38,7 +39,7 @@ class UserController {
 
             const user = await UserService.login(email, password);
            
-            res.json({ token: user.token, email: user.email });
+            res.status(200).json({ token: user.token, email: user.email });
         } catch (error) {
             next(error);
         }

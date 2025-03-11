@@ -2,6 +2,7 @@ import User from "../database/User";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import ApiError from "../errorHandler/errorHandler";
+import validator from 'validator';
 
 class UserService {
     JWT_SECRET = process.env.JWT_SECRET as string;
@@ -10,8 +11,50 @@ class UserService {
         this.className = this.constructor.name;
     }
 
-    validateEmail(email: string){
-        return email.trim().toLowerCase()
+    validateEmail(email: string) {
+        if (!email) {
+            throw ApiError.badRequest("email is empty", this.className);
+        }
+
+        const isValid = validator.isEmail(email.trim().toLowerCase());
+        if (isValid) {
+            return email;
+        }
+        throw ApiError.badRequest("email is not valid", this.className);
+    }
+
+    validatePassword(password: string) {
+        if (password.length >= 5 && password.length <= 16){
+            // Проверка на наличие хотя бы одной заглавной буквы (A-Z)
+            const hasUpperCase = /[A-Z]/.test(password);
+
+            // Проверка на наличие хотя бы одной строчной буквы (a-z)
+            const hasLowerCase = /[a-z]/.test(password);
+
+            // Проверка на наличие хотя бы одной цифры (0-9)
+            const hasNumber = /[0-9]/.test(password);
+
+            // Проверка на отсутствие специальных символов
+            const hasSpecialChar = /[!@#$%^&*()]/.test(password);
+
+            // Проверка на отсутствие пробелов
+            const hasSpace = /\s/.test(password);
+
+            const hasNonLatin = /[^A-Za-z0-9]/.test(password);
+
+            // Пароль должен соответствовать всем требованиям и не содержать специальных символов
+            if (
+                hasUpperCase &&
+                hasLowerCase &&
+                hasNumber &&
+                !hasSpecialChar &&
+                !hasSpace &&
+                !hasNonLatin
+            )  {
+                return password
+            }
+            throw ApiError.badRequest("password is not valid", this.className);
+        }
     }
 
     async getUserFromToken(token: string | undefined){
