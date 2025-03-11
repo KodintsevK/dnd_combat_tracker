@@ -29,6 +29,7 @@ app.post('/register', UserController.register);
 
 // Логин пользователя
 app.post('/login', UserController.login);
+app.get('/whoami', UserController.whoAmI);
 
 app.use(errorMiddlware);
 

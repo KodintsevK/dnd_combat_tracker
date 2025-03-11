@@ -14,6 +14,18 @@ class UserService {
         return email.trim().toLowerCase()
     }
 
+    async getUserFromToken(token: string | undefined){
+        if (!token) {
+            throw ApiError.forbidden("token is empty", this.className)
+        }
+        jwt.verify(token, this.JWT_SECRET, (err, user) => {
+            console.log(user);
+            
+            if (err) throw ApiError.forbidden("token is not valid", this.className) // Если токен невалиден
+            return user
+        });
+    }
+
     async registration(email : string, password : string) {
 
         let candidate = await User.findOne({where: {email}})
