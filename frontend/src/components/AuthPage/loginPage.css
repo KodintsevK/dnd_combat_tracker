@@ -1,0 +1,82 @@
+.login-page {
+    min-height: 100vh;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    min-height: 522px;
+    width: 320px;
+    max-width: 384px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    
+    gap: 24px;
+}
+
+.input-block, .button-block, .error-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 6px;
+}
+
+.input-block input {
+    height: 50px;
+    width: 100%;
+    font-size: 24px;
+    text-align: center;
+    border-radius: 5px; /* Скругляем углы */
+    border: 1px solid #ccc; /* Легкая граница */
+    transition: border-color 0.3s; /* Плавный переход границы */
+}
+.input-block input:hover {
+    border-color: #000000; /* Темно-зеленый фон при наведении */
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+}
+
+.button-block button {
+    background-color: #000000cc; 
+    color: white; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+}
+
+.button-block button:hover {
+    background-color: #000000; /* Темно-зеленый фон при наведении */
+}
+
+
+.error-block {
+    background-color: #ffebee;
+    color: #c62828;
+    text-align: center;
+    transition: background-color 1s ease;
+   
+    border-radius: 5px;
+
+    padding: 6px;
+
+}

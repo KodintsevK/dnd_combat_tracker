@@ -10,7 +10,7 @@ input.number {
     width: 60px;
 }
 
-input {
+td input {
     height: 50px;
     /* width: 150px; */
     font-size: 24px;

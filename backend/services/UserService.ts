@@ -53,8 +53,9 @@ class UserService {
             )  {
                 return password
             }
-            throw ApiError.badRequest("password is not valid", this.className);
+            throw ApiError.badRequest("Пароль Должен содержать цифру, строчную и заглавную букву латинского алфавита и быть от 5 до 16 символов", this.className);
         }
+        throw ApiError.badRequest("Пароль Должен содержать цифру, строчную и заглавную букву латинского алфавита и быть от 5 до 16 символов", this.className);
     }
 
     async getUserFromToken(token: string | undefined){
