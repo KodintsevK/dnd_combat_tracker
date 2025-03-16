@@ -13,13 +13,11 @@ sequelize.sync({ force: false }).then(() => {
 
 const app = express();
 const PORT = process.env.PORT;
-const IP : string = process.env.IP || `localhost`
 
 app.use(
   cors({
-
     // попробуй с клиента слать запросы не на localhost а на адресс IP
-    origin: `http://${IP}:3000`, // Разрешить запросы только с этого домена
+    origin: `http://localhost:3000`, // Разрешить запросы только с этого домена
     credentials: true, // Разрешить отправку куки и заголовков авторизации
   })
 );
