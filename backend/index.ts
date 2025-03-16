@@ -16,7 +16,7 @@ const PORT = process.env.PORT;
 
 app.use(
   cors({
-    origin: 'http://frontend_app:3000', // Разрешить запросы только с этого домена
+    origin: 'http://localhost:8080', // Разрешить запросы только с этого домена
     credentials: true, // Разрешить отправку куки и заголовков авторизации
   })
 );

@@ -16,7 +16,7 @@ class UserController {
     }
 
     async register(req: Request, res: Response, next: NextFunction) : Promise<void> {
-        try {
+        try {            
             let { email, password } = req.body;
 
             email = UserService.validateEmail(email);
