@@ -14,12 +14,11 @@ const Auth : React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-
   // переключение видимости пароля
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+  const IP = "89.111.170.26"
 
   // таймер на пропадение видимости ошибки
   useEffect(() => {
@@ -35,7 +34,7 @@ const Auth : React.FC = () => {
   const handleLogin = async () => {
     try {
 
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch(`http://${IP}:5000/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +63,7 @@ const Auth : React.FC = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch('http://localhost:5000/register', {
+      const response = await fetch(`http://${IP}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
