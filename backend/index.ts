@@ -31,19 +31,20 @@ const requestLogger = (req : Request, res: Response, next: NextFunction) => {
 
 app.use(requestLogger);
 
-app.use(cors());
-app.options('*', cors())
+const corsOptions = {
+  origin: 'http://89.111.170.26:8080',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+};
 
-// app.use(
-//   cors({
-//     // попробуй с клиента слать запросы не на localhost а на адресс IP
-//     origin: `http://localhost:3000`, // Разрешить запросы только с этого домена
-//     credentials: true, // Разрешить отправку куки и заголовков авторизации
-//   })
-// );
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
+app.get('/test', (req, res) => {
+  res.send('ok');
+});
 
 // Регистрация пользователя
 app.post('/register', UserController.register);
