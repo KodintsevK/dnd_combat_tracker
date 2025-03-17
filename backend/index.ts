@@ -31,14 +31,15 @@ const requestLogger = (req : Request, res: Response, next: NextFunction) => {
 
 app.use(requestLogger);
 
+app.use(cors())
 
-app.use(
-  cors({
-    // попробуй с клиента слать запросы не на localhost а на адресс IP
-    origin: `http://localhost:3000`, // Разрешить запросы только с этого домена
-    credentials: true, // Разрешить отправку куки и заголовков авторизации
-  })
-);
+// app.use(
+//   cors({
+//     // попробуй с клиента слать запросы не на localhost а на адресс IP
+//     origin: `http://localhost:3000`, // Разрешить запросы только с этого домена
+//     credentials: true, // Разрешить отправку куки и заголовков авторизации
+//   })
+// );
 
 app.use(express.json());
 
