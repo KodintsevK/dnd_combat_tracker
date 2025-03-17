@@ -5,6 +5,7 @@ import sequelize from './database/db';
 import UserController from './controllers/UserController';
 import errorMiddlware  from './middlware/error-middlware';
 dotenv.config();
+import { NextFunction, Request, Response } from "express";
 
 // Синхронизация базы данных
 sequelize.sync({ force: false }).then(() => {
@@ -13,6 +14,23 @@ sequelize.sync({ force: false }).then(() => {
 
 const app = express();
 const PORT = process.env.PORT;
+
+const requestLogger = (req : Request, res: Response, next: NextFunction) => {
+  // Получаем IP-адрес клиента
+  const clientIp = req.ip || req.connection.remoteAddress;
+
+  // Логируем IP-адрес
+  console.log('Request from IP:', clientIp);
+
+  // Логируем заголовки запроса
+  console.log('Request Headers:', req.headers);
+
+  // Передаем управление следующему middleware или обработчику маршрута
+  next();
+};
+
+app.use(requestLogger);
+
 
 app.use(
   cors({
