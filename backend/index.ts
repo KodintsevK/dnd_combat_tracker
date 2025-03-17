@@ -14,25 +14,10 @@ sequelize.sync({ force: false }).then(() => {
 
 const app = express();
 const PORT = process.env.PORT;
-
-const requestLogger = (req : Request, res: Response, next: NextFunction) => {
-  // Получаем IP-адрес клиента
-  const clientIp = req.ip || req.connection.remoteAddress;
-
-  // Логируем IP-адрес
-  console.log('Request from IP:', clientIp);
-
-  // Логируем заголовки запроса
-  console.log('Request Headers:', req.headers);
-
-  // Передаем управление следующему middleware или обработчику маршрута
-  next();
-};
-
-app.use(requestLogger);
+const IP : string = process.env.IP || 'localhost'
 
 const corsOptions = {
-  origin: 'http://89.111.170.26:8080',
+  origin: `http://${IP}:8080`,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
