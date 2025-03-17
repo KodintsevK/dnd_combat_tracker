@@ -31,7 +31,8 @@ const requestLogger = (req : Request, res: Response, next: NextFunction) => {
 
 app.use(requestLogger);
 
-app.use(cors())
+app.use(cors());
+app.options('*', cors())
 
 // app.use(
 //   cors({
