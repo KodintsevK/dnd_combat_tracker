@@ -4,24 +4,26 @@ import cors from 'cors'
 import sequelize from './database/db';
 import UserController from './controllers/UserController';
 import errorMiddlware  from './middlware/error-middlware';
+import './database/umzug';
 dotenv.config();
-import { NextFunction, Request, Response } from "express";
 
-// Синхронизация базы данных
-sequelize.sync({ force: false }).then(() => {
-  console.log('Database synced');
-});
+
 
 const app = express();
 const PORT = process.env.PORT;
 const IP : string = process.env.IP || 'localhost'
-console.log(IP);
+
 const corsOptions = {
   origin: `http://${IP}:8080`,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
 };
+
+// Синхронизация базы данных
+sequelize.sync({ force: false }).then(() => {
+  console.log('Database synced');
+});
 
 app.use(cors(corsOptions));
 

@@ -82,7 +82,7 @@ class UserService {
 
         const user = await User.create({ email, password: hashedPassword });
 
-        const token = jwt.sign({ userId: user.id }, this.JWT_SECRET , { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.uid }, this.JWT_SECRET , { expiresIn: '1h' });
         return {
             token: token,
             email: user.email 
@@ -96,7 +96,7 @@ class UserService {
         }
 
         if (await bcrypt.compare(password, user.password)) {
-            const token = jwt.sign({ userId: user.id }, this.JWT_SECRET , { expiresIn: '1h' });
+            const token = jwt.sign({ userId: user.uid }, this.JWT_SECRET , { expiresIn: '1h' });
             return { token: token, email: user.email };
         }
         
