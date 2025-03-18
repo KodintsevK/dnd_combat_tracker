@@ -15,7 +15,7 @@ sequelize.sync({ force: false }).then(() => {
 const app = express();
 const PORT = process.env.PORT;
 const IP : string = process.env.IP || 'localhost'
-
+console.log(IP);
 const corsOptions = {
   origin: `http://${IP}:8080`,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
