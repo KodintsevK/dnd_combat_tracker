@@ -25,6 +25,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       PORT: ${PORT}
       IP: ${IP}
+      clientIP: ${clientIP}
     depends_on:
       - db
     volumes:
