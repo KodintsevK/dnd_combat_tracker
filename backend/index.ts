@@ -20,6 +20,24 @@ console.log(IP);
 console.log('clientIP: ',clientIP);
 
 
+
+const requestLogger = (req : Request, res: Response, next: NextFunction) => {
+  // Получаем IP-адрес клиента
+  const clientIp_r = req.ip || req.connection.remoteAddress;
+
+  // Логируем IP-адрес
+  console.log('Request from IP:', clientIp_r);
+
+  // Логируем заголовки запроса
+  console.log('Request Headers:', req.headers);
+
+  // Передаем управление следующему middleware или обработчику маршрута
+  next();
+};
+
+app.use(requestLogger);
+
+
 const corsOptions = {
   origin: clientIP,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
