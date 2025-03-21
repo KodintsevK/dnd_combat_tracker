@@ -15,9 +15,13 @@ sequelize.sync({ force: false }).then(() => {
 const app = express();
 const PORT = process.env.PORT;
 const IP : string = process.env.IP || 'localhost'
+const clientIP : string = process.env.clientIP || "http://localhost:8080"
 console.log(IP);
+console.log('clientIP: ',clientIP);
+
+
 const corsOptions = {
-  origin: `http://${IP}:8080`,
+  origin: clientIP,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
@@ -27,16 +31,16 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.get('/test', (req, res) => {
+app.get('/api/test', (req, res) => {
   res.send('ok');
 });
 
 // Регистрация пользователя
-app.post('/register', UserController.register);
+app.post('/api/register', UserController.register);
 
 // Логин пользователя
-app.post('/login', UserController.login);
-app.get('/whoami', UserController.whoAmI);
+app.post('/api/login', UserController.login);
+app.get('/api/whoami', UserController.whoAmI);
 
 app.use(errorMiddlware);
 
