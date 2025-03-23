@@ -5,6 +5,7 @@ import sequelize from './database/db';
 import UserController from './controllers/UserController';
 import errorMiddlware  from './middlware/error-middlware';
 import './database/umzug';
+import UnitController from './controllers/UnitController';
 dotenv.config();
 
 
@@ -39,6 +40,9 @@ app.post('/register', UserController.register);
 // Логин пользователя
 app.post('/login', UserController.login);
 app.get('/whoami', UserController.whoAmI);
+
+app.post('/unit', UnitController.create);
+
 
 app.use(errorMiddlware);
 

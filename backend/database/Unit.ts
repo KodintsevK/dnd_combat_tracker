@@ -8,8 +8,8 @@ class Unit extends Model {
   public armorClass         !: number;
   public initiative         !: number;
   public maxHP              !: number;
-  public damageTaken        !: number;
-  public timelessHp         !: number;
+  // public damageTaken        !: number;
+  // public timelessHp         !: number;
 
   public userUID            !: string;
   public getUser            !: BelongsToGetAssociationMixin<User>;
@@ -42,14 +42,14 @@ Unit.init(
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    damageTaken: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    timelessHp: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
+    // damageTaken: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    // },
+    // timelessHp: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    // },
     userUID: {
         type: DataTypes.UUID,
         allowNull: false,

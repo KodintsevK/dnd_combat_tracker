@@ -18,7 +18,7 @@ class UserService {
 
         const isValid = validator.isEmail(email.trim().toLowerCase());
         if (isValid) {
-            return email;
+            return email.trim().toLowerCase();
         }
         throw ApiError.badRequest("email is not valid", this.className);
     }
@@ -69,6 +69,19 @@ class UserService {
             return user
         });
     }
+    async getUserIdFromToken(token: string): Promise<string | null> {
+        try {
+          // Верифицируем токен
+          const decoded = jwt.verify(token, this.JWT_SECRET) as { userId: string };
+      
+          // Возвращаем userId из payload токена
+          return decoded.userId;
+        } catch (error) {
+          // Если токен невалидный (истек срок действия или подпись неверна)
+          console.error('Invalid token:', error);
+          return null;
+        }
+      }
 
     async registration(email : string, password : string) {
 
