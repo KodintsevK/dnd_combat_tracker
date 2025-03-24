@@ -2,10 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors'
 import sequelize from './database/db';
-import UserController from './controllers/UserController';
 import errorMiddlware  from './middlware/error-middlware';
 import './database/umzug';
-import UnitController from './controllers/UnitController';
+import router from './routers';
 dotenv.config();
 
 
@@ -30,19 +29,7 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.get('/test', (req, res) => {
-  res.send('ok');
-});
-
-// Регистрация пользователя
-app.post('/register', UserController.register);
-
-// Логин пользователя
-app.post('/login', UserController.login);
-app.get('/whoami', UserController.whoAmI);
-
-app.post('/unit', UnitController.create);
-
+app.use('/api', router);
 
 app.use(errorMiddlware);
 

@@ -3,6 +3,7 @@ import ApiError from '../errorHandler/errorHandler';
 import UnitService from '../services/UnitService';
 import UserService from '../services/UserService';
 import Unit from '../database/Unit';
+import TokenService from '../services/TokenService';
 
 class UnitController {
     async create(req: Request, res: Response, next: NextFunction) : Promise<void>{
@@ -29,8 +30,22 @@ class UnitController {
                 });
                 res.status(201).json( new_unit )
             }
+            throw ApiError.badRequest("Unit is not valid")
         } catch (error) {
             next(error);  
+        }
+    }
+
+    async get(req: Request, res: Response, next: NextFunction) : Promise<void>{
+        try {
+            const token = TokenService.getUserInfoFromToken(req)
+            const userUID = await UserService.getUserIdFromToken(token);
+            const user = await UserService.getUserbyUID(userUID);
+            const units = await user.getUnits();
+
+            res.status(200).json(units)
+        } catch (error) {
+            next(error)
         }
     }
 }

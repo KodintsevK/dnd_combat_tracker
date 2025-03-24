@@ -58,18 +58,7 @@ class UserService {
         throw ApiError.badRequest("Пароль Должен содержать цифру, строчную и заглавную букву латинского алфавита и быть от 5 до 16 символов", this.className);
     }
 
-    async getUserFromToken(token: string | undefined){
-        if (!token) {
-            throw ApiError.forbidden("token is empty", this.className)
-        }
-        jwt.verify(token, this.JWT_SECRET, (err, user) => {
-            console.log(user);
-            
-            if (err) throw ApiError.forbidden("token is not valid", this.className) // Если токен невалиден
-            return user
-        });
-    }
-    async getUserIdFromToken(token: string): Promise<string | null> {
+    async getUserIdFromToken(token: string): Promise<string> {
         try {
           // Верифицируем токен
           const decoded = jwt.verify(token, this.JWT_SECRET) as { userId: string };
@@ -78,10 +67,9 @@ class UserService {
           return decoded.userId;
         } catch (error) {
           // Если токен невалидный (истек срок действия или подпись неверна)
-          console.error('Invalid token:', error);
-          return null;
+          throw ApiError.unauthorized("token is mot valid", this.className)
         }
-      }
+    }
 
     async registration(email : string, password : string) {
 
@@ -115,6 +103,14 @@ class UserService {
         
         throw ApiError.badRequest("wrong password", this.className)
         
+    }
+
+    async getUserbyUID(uid: string) {
+        const user = await User.findByPk(uid);
+        if (!user) {
+            throw ApiError.notFound("user not found by id", this.className);
+        }
+        return user;
     }
 }
 
