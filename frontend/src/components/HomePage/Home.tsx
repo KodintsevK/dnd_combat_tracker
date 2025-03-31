@@ -12,7 +12,7 @@ const Home : React.FC = () => {
     });
     
     useEffect(() => {
-    localStorage.setItem('characters', JSON.stringify(characters));
+        localStorage.setItem('characters', JSON.stringify(characters));
     }, [characters]);
     
     
