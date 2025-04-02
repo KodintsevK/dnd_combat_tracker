@@ -14,9 +14,10 @@ const PORT = process.env.PORT;
 
 const CORS_URL : string = process.env.CORS_URL || 'localhost'
 const CORS_PORT : string = process.env.CORS_PORT || '3000'
+const clientIP : string = process.env.clientIP!;
 
 const corsOptions = {
-  origin: `http://${CORS_URL}:${CORS_PORT}`,
+  origin: [`http://${CORS_URL}:${CORS_PORT}`, clientIP],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
