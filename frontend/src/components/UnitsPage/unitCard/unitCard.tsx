@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Unit from '../../../Interface/Unit.tsx';
+import Unit from '../../../Interface/Unit';
 import "./unitCard.css"
-import SvgNumber from '../unitStat/unitStat.tsx';
+import SvgNumber from '../unitStat/unitStat';
 
 interface UnitCardProps {
     unit?: Unit; // Принимаем объект unit целиком
@@ -61,9 +61,11 @@ const UnitCard : React.FC<UnitCardProps> = ({
                     />
                 </div>
                 <div className='button_block'>
-                    <button onClick={()=> addToTable(unit)}>Добавить в таблицу</button>
                     {
-                        unit.isNew && <button onClick={() => createUnit(unit)}>Сохранить</button>
+                        !unit.isNew && <button onClick={()=> addToTable(unit)} className='addToTable'>Добавить в таблицу</button>
+                    }
+                    {
+                        unit.isNew && <button onClick={() => createUnit(unit)} className='saveUnit'>Сохранить</button>
                     }
                 </div>
             </div>

@@ -11,10 +11,11 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
-const IP : string = process.env.IP || 'localhost'
+const CORS_URL : string = process.env.CORS_URL || 'localhost'
+const CORS_PORT : string = process.env.CORS_PORT || '3000'
 
 const corsOptions = {
-  origin: `http://${IP}:8080`,
+  origin: `http://${CORS_URL}:${CORS_PORT}`,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204

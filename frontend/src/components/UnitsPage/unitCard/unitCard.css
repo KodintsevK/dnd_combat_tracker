@@ -56,7 +56,37 @@
     }
     
     .button_block {
-        text-align: center;
+        justify-content: center;
+        display: flex;
+        gap: 5px;
+
+        .addToTable {
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            background: #070707;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer; 
+
+            &:hover {
+                background: #545554;
+            }
+        }
+
+        .saveUnit {
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            background: #070707;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+            cursor: pointer; 
+
+            &:hover {
+                background: #545554;
+            }
+        }
     }
 
 }

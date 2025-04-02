@@ -1,14 +1,15 @@
-import Home from "./components/HomePage/Home.tsx";
+import Home from './components/HomePage/Home';
+
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
-import Auth from './components/AuthPage/loginPage.tsx';
-import { UserContext } from "./context/userContext.ts";
-import UnitsPage from "./components/UnitsPage/unitsPage.tsx";
-
+import Auth from './components/AuthPage/loginPage';
+import { UserContext } from "./context/userContext";
+import UnitsPage from "./components/UnitsPage/unitsPage";
+// import Home from './components/HomePage/Home.js';
 const App = () => {
 
   const { user, setUserContext }  = useContext(UserContext);
-
+  
   const handleLogout = () => {
     setUserContext(null); // Сбрасываем пользователя в null
   };

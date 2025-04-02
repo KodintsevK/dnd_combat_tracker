@@ -1,6 +1,6 @@
 import React from 'react';
 import './cell.css';
-import Player from '../../../Interface/Player.tsx';
+import Player from '../../../Interface/Player';
 import { v4 as uuidv4 } from 'uuid';
 
 interface TableCellProps {

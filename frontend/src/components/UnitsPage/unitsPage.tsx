@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { UserContext } from "../../context/userContext.ts";
-import Unit from '../../Interface/Unit.tsx';
-import UnitCard from './unitCard/unitCard.tsx';
+import { UserContext } from "../../context/userContext";
+import Unit from '../../Interface/Unit';
+import UnitCard from './unitCard/unitCard';
 import "./UnitPage.css"
 import { v4 as uuidv4 } from 'uuid';
-import { species_svg } from './types/species_svg.tsx';
-import Player from '../../Interface/Player.tsx';
+import Player from '../../Interface/Player';
+import backendUrl from '../../constants';
 
 const UnitsPage : React.FC = () => {
     const { user, }  = useContext(UserContext);
@@ -24,13 +24,10 @@ const UnitsPage : React.FC = () => {
       needToSave: true
     }
 
-    // const IP = "localhost"
-    const IP = "89.111.170.26"
-
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await fetch(`http://${IP}:5000/api/unit/`, {
+            const response = await fetch(`http://${backendUrl}:5000/api/unit/`, {
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
@@ -100,7 +97,7 @@ const UnitsPage : React.FC = () => {
 
     const createUnit = async (unit: Unit) => {
       try {      
-        const response = await fetch(`http://${IP}:5000/api/unit`, {
+        const response = await fetch(`http://${backendUrl}:5000/api/unit`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -112,7 +109,6 @@ const UnitsPage : React.FC = () => {
   
         const data = await response.json();
         console.log(data);
-        alert(data)
         setNeedToReload(true);
       } catch (error) {
         alert(error);

@@ -1,7 +1,10 @@
 import React from 'react';
 import './SvgNumber.css';
+// @ts-ignore
 import { ReactComponent as HeartIcon } from '../images/heart.svg';
+// @ts-ignore
 import { ReactComponent as ShieldIcon } from '../images/shield.svg';
+// @ts-ignore
 import { ReactComponent as InitiativeIcon } from '../images/initiative.svg';
 import { species_svg } from '../types/species_svg';
 import Unit from '../../../Interface/Unit';

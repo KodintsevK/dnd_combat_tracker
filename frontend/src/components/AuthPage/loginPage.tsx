@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {UserContext} from '../../context/userContext.ts';
+import {UserContext} from '../../context/userContext';
 import "./loginPage.css"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import backendUrl from '../../constants';
 
 const Auth : React.FC = () => {
 
@@ -18,8 +19,7 @@ const Auth : React.FC = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const IP = "89.111.170.26"
-
+  
   // таймер на пропадение видимости ошибки
   useEffect(() => {
     if (error) {
@@ -34,7 +34,7 @@ const Auth : React.FC = () => {
   const handleLogin = async () => {
     try {
 
-      const response = await fetch(`http://${IP}:5000/api/user/login`, {
+      const response = await fetch(`http://${backendUrl}:5000/api/user/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const Auth : React.FC = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch(`http://${IP}:5000/api/user/register`, {
+      const response = await fetch(`http://${backendUrl}:5000/api/user/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

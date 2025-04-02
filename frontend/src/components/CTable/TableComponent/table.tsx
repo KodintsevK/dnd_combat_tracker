@@ -1,7 +1,7 @@
 import React from 'react';
-import TableCell from '../CellComponent/cell.tsx';
+import TableCell from '../CellComponent/cell';
 import "./table.css"
-import Player from '../../../Interface/Player.tsx';
+import Player from '../../../Interface/Player';
 
 
 interface CTableProps {
