@@ -24,7 +24,7 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
       PORT: ${PORT}
-      clientIP: {clientIP}
+      clientIP: ${clientIP}
       CORS_URL: ${CORS_URL}
       CORS_PORT: ${CORS_PORT}
     depends_on:
