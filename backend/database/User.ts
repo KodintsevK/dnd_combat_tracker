@@ -1,19 +1,25 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, HasManyGetAssociationsMixin } from 'sequelize';
 import sequelize from './db';
+import Unit from './Unit';
+
 
 class User extends Model {
-  public id!: number;
-  public email!: string;
-  public password!: string;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  public uid                !: string;
+  public email              !: string;
+  public password           !: string;
+
+  public getUnits!: HasManyGetAssociationsMixin<Unit>;
+
+  public readonly createdAt !: Date;
+  public readonly updatedAt !: Date;
 }
 
 User.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+    uid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
       primaryKey: true,
     },
     email: {
@@ -33,5 +39,16 @@ User.init(
     timestamps: true, // Добавляет поля createdAt и updatedAt
   }
 );
+
+User.hasMany(Unit, {
+  foreignKey: 'userUID', // Внешний ключ в таблице units
+  sourceKey: 'uid', // Первичный ключ в таблице users
+});
+
+// Определяем связь "многие к одному"
+Unit.belongsTo(User, {
+  foreignKey: 'userUID', // Внешний ключ в таблице units
+  targetKey: 'uid', // Первичный ключ в таблице users
+});
 
 export default User;

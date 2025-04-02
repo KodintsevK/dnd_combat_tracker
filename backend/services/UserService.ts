@@ -18,7 +18,7 @@ class UserService {
 
         const isValid = validator.isEmail(email.trim().toLowerCase());
         if (isValid) {
-            return email;
+            return email.trim().toLowerCase();
         }
         throw ApiError.badRequest("email is not valid", this.className);
     }
@@ -58,16 +58,17 @@ class UserService {
         throw ApiError.badRequest("Пароль Должен содержать цифру, строчную и заглавную букву латинского алфавита и быть от 5 до 16 символов", this.className);
     }
 
-    async getUserFromToken(token: string | undefined){
-        if (!token) {
-            throw ApiError.forbidden("token is empty", this.className)
+    async getUserIdFromToken(token: string): Promise<string> {
+        try {
+          // Верифицируем токен
+          const decoded = jwt.verify(token, this.JWT_SECRET) as { userId: string };
+      
+          // Возвращаем userId из payload токена
+          return decoded.userId;
+        } catch (error) {
+          // Если токен невалидный (истек срок действия или подпись неверна)
+          throw ApiError.unauthorized("token is mot valid", this.className)
         }
-        jwt.verify(token, this.JWT_SECRET, (err, user) => {
-            console.log(user);
-            
-            if (err) throw ApiError.forbidden("token is not valid", this.className) // Если токен невалиден
-            return user
-        });
     }
 
     async registration(email : string, password : string) {
@@ -82,7 +83,7 @@ class UserService {
 
         const user = await User.create({ email, password: hashedPassword });
 
-        const token = jwt.sign({ userId: user.id }, this.JWT_SECRET , { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.uid }, this.JWT_SECRET , { expiresIn: '1h' });
         return {
             token: token,
             email: user.email 
@@ -96,12 +97,20 @@ class UserService {
         }
 
         if (await bcrypt.compare(password, user.password)) {
-            const token = jwt.sign({ userId: user.id }, this.JWT_SECRET , { expiresIn: '1h' });
+            const token = jwt.sign({ userId: user.uid }, this.JWT_SECRET , { expiresIn: '1h' });
             return { token: token, email: user.email };
         }
         
         throw ApiError.badRequest("wrong password", this.className)
         
+    }
+
+    async getUserbyUID(uid: string) {
+        const user = await User.findByPk(uid);
+        if (!user) {
+            throw ApiError.notFound("user not found by id", this.className);
+        }
+        return user;
     }
 }
 

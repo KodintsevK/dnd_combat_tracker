@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Player from '../../Interface/Player.tsx';
-import CTable from '../CTable/TableComponent/table.tsx';
+import Player from '../../Interface/Player';
+import CTable from '../CTable/TableComponent/table';
 
 
 const Home : React.FC = () => {
@@ -12,7 +12,7 @@ const Home : React.FC = () => {
     });
     
     useEffect(() => {
-    localStorage.setItem('characters', JSON.stringify(characters));
+        localStorage.setItem('characters', JSON.stringify(characters));
     }, [characters]);
     
     

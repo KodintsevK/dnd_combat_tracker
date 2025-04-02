@@ -1,0 +1,92 @@
+.unit-card {
+    max-width: 280px;
+    min-width: 280px;
+    padding: 5px;
+    border: 1px solid black;
+    margin: 5px;
+    height: 150px;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #f5f5f5;
+
+
+    .name-block {
+        text-align: center;
+
+        .name-input {
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            border: none;
+            background-color: #f5f5f5;
+        }
+    }
+
+    .unit-card__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100%;
+
+        .unit-card__add-button {
+            /* transform: translate(200%, 80%); */
+            width: 50px;
+            height: 50px; 
+            border-radius: 50%; 
+            background: #070707; 
+            border: none;
+            color: white; 
+            font-size: 24px; 
+            font-weight: bold;
+            cursor: pointer; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+        }
+          
+        .unit-card__add-button:hover {
+            background: #545554;
+        }
+    }
+
+    .stat-block {
+        display: flex;
+        margin: 5px;
+    }
+    
+    .button_block {
+        justify-content: center;
+        display: flex;
+        gap: 5px;
+
+        .addToTable {
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            background: #070707;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer; 
+
+            &:hover {
+                background: #545554;
+            }
+        }
+
+        .saveUnit {
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            background: #070707;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+            cursor: pointer; 
+
+            &:hover {
+                background: #545554;
+            }
+        }
+    }
+
+}

@@ -1,7 +1,7 @@
 import React, { FC, useState, ReactNode, useEffect } from 'react';
 
-import {UserContext} from '../context/userContext.ts';
-import User from '../Interface/user.tsx';
+import {UserContext} from '../context/userContext';
+import User from '../Interface/user';
 
 
 const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {

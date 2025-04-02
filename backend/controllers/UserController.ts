@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import UserService from "../services/UserService"
+import TokenService from '../services/TokenService';
 
 class UserController {
 
     async whoAmI(req: Request, res: Response, next: NextFunction) : Promise<void>{
         try {
-            const authHeader = req.headers['authorization'];
-            const token = authHeader && authHeader.split(' ')[1];
+            const token = TokenService.getUserInfoFromToken(req)
 
-            await UserService.getUserFromToken(token)
+            const userUID = await UserService.getUserIdFromToken(token)
             res.status(200);   
         } catch (error) {
             next(error);

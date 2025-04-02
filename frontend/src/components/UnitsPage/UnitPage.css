@@ -1,0 +1,12 @@
+.units_block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Отступ между карточками */
+    margin: 20px;
+}
+  
+.unit-card {
+    flex: 0 0 calc(25% - 12px); /* 25% ширины минус отступы (16px * 3 / 4) */
+    /* или flex: 1 0 21%; если gap 16px (25% - (3 * 16px / 4)) */
+    box-sizing: border-box; /* Чтобы padding не влиял на расчет ширины */
+}

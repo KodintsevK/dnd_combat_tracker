@@ -24,8 +24,8 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
       PORT: ${PORT}
-      IP: ${IP}
-      clientIP: ${clientIP}
+      CORS_URL: ${CORS_URL}
+      CORS_PORT: ${CORS_PORT}
     depends_on:
       - db
     volumes:
@@ -38,6 +38,8 @@ services:
     container_name: frontend_app
     ports:
       - "8080:3000"
+    environment:
+      REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL}
     depends_on:
       - backend
     volumes:
