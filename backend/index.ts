@@ -15,13 +15,13 @@ const app = express();
 const PORT = process.env.PORT;
 
 const CORS_URL : string = process.env.CORS_URL || 'localhost'
-const CORS_PORT : string = process.env.CORS_PORT || '3000'
+const CORS_PORT : string = process.env.CORS_PORT || '8080'
 const clientIP : string = process.env.clientIP!;
 console.log("clientIP: ", clientIP);
 console.log("comboIP: ", `http://${CORS_URL}:${CORS_PORT}`);
 
 const corsOptions = {
-  origin: [`http://${CORS_URL}:${CORS_PORT}`, clientIP],
+  origin: [`http://${CORS_URL}:${CORS_PORT}`, clientIP, "http://localhost:8080", "http://localhost:3000", "http://localhost:5000", "http://dnd-combat.ru", "http://localhost"],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
