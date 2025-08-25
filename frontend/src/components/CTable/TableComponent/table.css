@@ -9,7 +9,8 @@ table {
 td {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
     height: 50px;
 }
 
@@ -31,15 +32,19 @@ tr.dead {
     background-color: #ffe6e6;
 }
 
+thead tr {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 th {
     width: 1em;
 }
 th.nickname-column {
-    width: 3em;
+    width: 0.1em;
 }
-th.option-column {
-    width: 1em;
-}
+
 .tooltip {
     position: relative;
     display: inline-block;
@@ -70,6 +75,6 @@ th.option-column {
 
 .checkbox-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Две колонки */
-    gap: 10px; /* Расстояние между колонками */
+    grid-template-columns: repeat(2, 1fr); /* Две колонки */
+    gap: 0px; /* Расстояние между колонками */
 }

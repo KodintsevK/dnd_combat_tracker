@@ -93,7 +93,7 @@ const TableCell: React.FC<TableCellProps> = ({
   const renderNumberInput = () => (
     <input
       className="number"
-      value={Number(value) || 0}
+      value={Number(value) || ''}
       onChange={(e) => onChange(Number(e.target.value) || 0)}
       type={type}
     />

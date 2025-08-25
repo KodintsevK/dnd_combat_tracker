@@ -1,13 +1,43 @@
 td.table-cell.text {
-    width: 400px;
+    padding: 0px;
 }
 
 td.table-cell.number .option-column{
     width: 60px;
 } 
+td.table-cell.checkbox {
+    padding: 0px;
+}
 
 input.number {
     width: 60px;
+}
+
+/* Стили для WebKit браузеров (Chrome, Safari) */
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+    opacity: 1;
+    /* position: absolute; */
+    right: 0px;
+    height: 100%;
+    width: 15px;
+    /* cursor: pointer; */
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    opacity: 1;
+    -webkit-appearance: inner-spin-button !important;
+    height: 40px; /* Увеличиваем область клика */
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Для Firefox */
+    appearance: textfield; /* Стандартное свойство */
+}
+
+td.table-cell.text input {
+    width: 150px;
 }
 
 td input {

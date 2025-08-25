@@ -28,7 +28,7 @@ const Home : React.FC = () => {
     
     const handleEditCell = (id: string, field: keyof Player, value: string | number | string[] | boolean) => {
         if (typeof value === "number" && value < 0){
-            value = 0;
+            value = '';
         }
         const updatedData = characters.map(player => {
             if (player.id === id) {
